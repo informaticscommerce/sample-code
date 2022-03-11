@@ -1,0 +1,160 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \InformaticsCommerce\ReportApi\Block\ReportRequest $block */
+
+/** @var \InformaticsCommerce\ReportApi\Helper\Data $helperReportApi */
+$helperReportApi = $this->helper(\InformaticsCommerce\ReportApi\Helper\Data::class);
+$customer = $helperReportApi->getCustomer();
+?>
+
+<?php if ($filename = $helperReportApi->getFileName()): ?>
+    <div class="actions-toolbar top">
+        <div class="primary">
+            <button
+                onclick="window.location.href='<?= $helperReportApi->getMediaUrl() . $helperReportApi->getMediaSalesReportPath() . $filename; ?>'"
+                type="button" id="download" title="<?= $block->escapeHtmlAttr(__('Download')) ?>"
+                class="action submit primary">
+                <span><?= $block->escapeHtml(__('Download')) ?></span>
+            </button>
+        </div>
+    </div>
+<?php endif; ?>
+
+<form class="form contact"
+      action="<?= $block->escapeUrl($block->getBaseUrl() . 'report_api/index/reportrequest') ?>"
+      id="report-request"
+      method="post"
+      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <div
+            class="field note no-label"><?= $block->escapeHtml(__('Input Sales Order Number And Customer PO Number ')) ?><strong><?= $block->escapeHtml(__('Both Are Required.')) ?></strong></div>
+
+        <div class="field name">
+            <label class="label"
+                   for="sales_order_number"><span><?= $block->escapeHtml(__('Sales Order Number')) ?> *</span></label>
+            <div class="control">
+                <input name="sales_order_number" id="sales_order_number"
+                       title="<?= $block->escapeHtmlAttr(__('Sales Order Number')) ?>"
+                       value="<?= $block->escapeHtmlAttr($helperReportApi->getPostValue('sales_order_number')); ?>"
+                       class="input-text required" type="text"/>
+            </div>
+        </div>
+        <div class="field name">
+            <label class="label"
+                   for="customer_po_number"><span><?= $block->escapeHtml(__('Customer PO Number')) ?> *</span></label>
+            <div class="control">
+                <input name="customer_po_number" id="customer_po_number"
+                       title="<?= $block->escapeHtmlAttr(__('Customer PO Number')) ?>"
+                       value="<?= $block->escapeHtmlAttr($helperReportApi->getPostValue('customer_po_number')); ?>"
+                       class="input-text required" type="text"/>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <input type="hidden" name="hideit" id="hideit" value=""/>
+            <button type="submit" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>" class="action submit primary">
+                <span><?= $block->escapeHtml(__('Submit')) ?></span>
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'domReady!'
+    ], function ($) {
+
+        $('#response-html').find('.c80').removeClass();
+
+        /*
+         * when DOM structure is ready
+         * */
+        $(document).ready(function () {
+            var formSubmit = false;
+            $("#report-request").submit(function (event) {
+
+                var salesOrderNumber = $.trim($('#sales_order_number').val());
+                var customerPoNumber = $.trim($('#customer_po_number').val());
+
+                if (salesOrderNumber == '' && customerPoNumber == '') {
+                    alert('Input Sales Order Number And Customer PO Number Both Are Required.');
+                    event.preventDefault();
+                    return;
+                }
+
+                if (formSubmit == true) {
+                    return;
+                }
+
+                formSubmit = true;
+                $("#report-request").submit();
+            });
+        });
+    });
+</script>
+
+<?php if ($filename = $helperReportApi->getFileName()): ?>
+    <div class="response-html-container">
+        <h3><?= $block->escapeHtml(__('Sales Order Status Inquiry:')) ?></h3>
+        <div class="response-html" id="response-html">
+            <?php
+            $row = 1;
+            ?>
+            <table class="sales-reports-response-header">
+                <?php
+                if (($handle = fopen($helperReportApi->getDirectoryList()->getPath(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA) . '/' . $helperReportApi->getMediaSalesReportPath() . $filename, "r")) !== FALSE): ?>
+                <?php while (($data = fgetcsv($handle, 1000, ",")) !== FALSE): ?>
+                <?php
+                $num = count($data);
+                ?>
+                <?php if ($row < 5): ?>
+                    <?php if ($row == 2 || $row == 3): ?>
+                        <tr>
+                            <?php for ($c = 0; $c < $num; $c++): ?>
+                                <?php if (!empty($data[$c])): ?>
+                                    <td>
+                                        <?php echo $data[$c]; ?>
+                                    </td>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+                        </tr>
+                    <?php endif; ?>
+                    <?php
+                    $row++;
+                    continue;
+                endif; ?>
+                <?php if ($row == 5): ?>
+            </table>
+
+        <table class="sales-reports-response">
+        <tr>
+            <?php for ($c = 0; $c < $num; $c++): ?>
+                <th>
+                    <?php echo $data[$c]; ?>
+                </th>
+            <?php endfor; ?>
+        </tr>
+        <?php else: ?>
+            <tr>
+                <?php for ($c = 0; $c < $num; $c++): ?>
+                    <td>
+                        <?php echo $data[$c]; ?>
+                    </td>
+                <?php endfor; ?>
+            </tr>
+        <?php endif; ?>
+        <?php $row++; ?>
+        <?php endwhile; ?>
+        <?php fclose($handle); ?>
+        </table>
+        <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

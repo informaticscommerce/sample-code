@@ -1,0 +1,54 @@
+.report_api-index-index .sales-reports-response th {
+    text-decoration: underline;
+}
+
+.report_api-index-index .sales-reports-response-header,
+.report_api-index-index .sales-reports-response {
+    border: 1px solid #b2b2b2;
+}
+
+.report_api-index-index .sales-reports-response-header {
+    margin-bottom: 30px;
+}
+
+.report_api-index-index .sales-reports-response-header td:nth-child(odd) {
+    font-weight: 700;
+}
+
+.report_api-index-index .sales-reports-response-header td {
+    padding: 7px 5px !important;
+    white-space: nowrap;
+}
+
+.report_api-index-index .sales-reports-response-header td,
+.report_api-index-index .sales-reports-response th,
+.report_api-index-index .sales-reports-response td {
+    border-top: 1px solid #b2b2b2;
+    border-right: 1px solid #b2b2b2;
+}
+
+.report_api-index-index .actions-toolbar.top {
+    position: absolute;
+    top: 5px;
+    right: 0;
+}
+
+.report_api-index-index .column.main {
+    position: relative;
+}
+
+.report_api-index-index .field.name .control #sales_order_number,
+.report_api-index-index .field.name .control #customer_po_number {
+    display: block !important;
+    height: 36px;
+    border: 2px solid #c7c7c7;
+}
+
+.report_api-index-index .field.name .control {
+    max-width: 650px;
+}
+
+.report_api-index-index .field.name .control #sales_order_number.has-value,
+.report_api-index-index .field.name .control #customer_po_number.has-value {
+    padding: 0 9px;
+}

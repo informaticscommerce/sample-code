@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Fetch real time sales report
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<omega_api_setting>
+			<sales>
+				<request_xml>
+					<![CDATA[<soap:Envelope
+	xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+	xmlns:tns="http://xmlns.oracle.com/oxp/service/PublicReportService">
+	<soap:Header />
+	<soap:Body>
+		<tns:runReport>
+			<tns:reportRequest>
+				<tns:parameterNameValues>
+					<tns:item>
+						<tns:name>p_sales_order_number</tns:name>
+						<tns:values>
+							<tns:item>%s</tns:item>
+						</tns:values>
+					</tns:item>
+					<tns:item>
+						<tns:name>p_customer_po_number</tns:name>
+						<tns:values>
+							<tns:item>%s</tns:item>
+						</tns:values>
+					</tns:item>
+					<tns:item>
+						<tns:name></tns:name>
+						<tns:values>
+							<tns:item></tns:item>
+						</tns:values>
+					</tns:item>
+				</tns:parameterNameValues>
+				<tns:reportAbsolutePath>Custom/NOV_Reports/NOV 1207-02 eParts Customer Sales Order Report.xdo</tns:reportAbsolutePath>
+				<tns:sizeOfDataChunkDownload>-1</tns:sizeOfDataChunkDownload>
+			</tns:reportRequest>
+		</tns:runReport>
+	</soap:Body>
+</soap:Envelope>]]>
+				</request_xml>
+
+				<enabled>1</enabled>
+				<mode>1</mode>
+				<test_endpoint>https://ekbn.fa.us6.oraclecloud.com:443/xmlpserver/services/ExternalReportWSSService?wsdl</test_endpoint>
+				<prod_endpoint>https://ekbn.fa.us6.oraclecloud.com:443/xmlpserver/services/ExternalReportWSSService?wsdl</prod_endpoint>
+				<debug>1</debug>
+			</sales>
+		</omega_api_setting>
+	</default>
+</config>

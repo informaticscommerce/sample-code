@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Catalog Module to fetch real time sales report.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<section id="omega_api_setting" translate="label" sortOrder="50" showInDefault="1"
+				 showInWebsite="1" showInStore="1">
+			<tab>nov</tab>
+			<resource>Nov_Catalog::nov_catalog</resource>
+			<group id="sales" translate="label" type="text" sortOrder="41" showInDefault="1"
+				   showInWebsite="1" showInStore="1">
+				<label>Sales Order Status Inquiry</label>
+				<field id="enabled" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Module</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="mode" translate="label comment" sortOrder="10" type="select" showInDefault="1"
+					   showInWebsite="1" showInStore="1">
+					<label>API Mode</label>
+					<source_model>Nov\Catalog\Model\Config\Source\Mode</source_model>
+					<depends>
+						<field id="enabled">1</field>
+					</depends>
+				</field>
+				<field id="test_endpoint" translate="label comment" sortOrder="20" type="text" showInDefault="1"
+					   showInWebsite="1" showInStore="1">
+					<label>Testing API Endpoint</label>
+					<depends>
+						<field id="enabled">1</field>
+					</depends>
+				</field>
+				<field id="prod_endpoint" translate="label comment" sortOrder="30" type="text" showInDefault="1"
+					   showInWebsite="1" showInStore="1">
+					<label>Production API Endpoint</label>
+					<depends>
+						<field id="enabled">1</field>
+					</depends>
+				</field>
+				<field id="debug" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Debug</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<depends>
+						<field id="enabled">1</field>
+					</depends>
+				</field>
+			</group>
+        </section>
+	</system>
+</config>

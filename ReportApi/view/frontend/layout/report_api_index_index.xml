@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <title>Sales Order Status Inquiry</title>
+        <css src="InformaticsCommerce_ReportApi::css/reportapi.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="InformaticsCommerce\ReportApi\Block\ReportRequest" name="report_request" cacheable="false"
+                   template="InformaticsCommerce_ReportApi::report/request.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
